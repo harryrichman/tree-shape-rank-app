@@ -20,9 +20,10 @@ function rankToTree(r) {
         const p_parts = p_id.split("-");
         const p = parseInt(p_parts[p_parts.length - 1]);
         // const p_prefix = p_lab.split("-").slice(-1).join();
-        console.log("p_lab: " + p_obj.label);
-        console.log("p: " + p);
-        console.log("p_prefix: " + p_prefix);
+        // debugging
+        // console.log("p_lab: " + p_obj.label);
+        // console.log("p: " + p);
+        // console.log("p_prefix: " + p_prefix);
         c1 = largerChild(p);
         c2 = smallerChild(p);
         const children = [c1, c2];
@@ -63,4 +64,11 @@ function smallerChild(r) {
 
 function childRankSum(r) {
     return Math.floor(Math.sqrt(4 * r - 3)) - 1
+}
+
+function combineFromChildren(a, b) {
+    if (a < b) {
+        return combineFromChildren(b, a)
+    }
+    return Math.floor((a + b + 1) / 2) * Math.ceil((a + b + 1) / 2) + b + 1
 }

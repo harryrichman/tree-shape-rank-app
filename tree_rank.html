@@ -31,6 +31,7 @@
       var nodes = null;
       var edges = null;
       var network = null;
+      var inputType = null;
 
       function destroy() {
         if (network !== null) {
@@ -41,15 +42,19 @@
 
       function draw() {
         destroy();
-        // create tree nodes and edges
-        var rank = document.getElementById("treeRank").value;
-        rank = parseInt(rank);
-        // const data = twoAdicTree([0, 1]);
-        // const data = twoAdicTree([0, 1, 2, 4, 8]);
-        // var data = twoAdicTree([0, 1, 3, 8, 17]);
-        // const data = twoAdicTree([0, 1, 4, 11, 7, 19, 142, -1]);
-        data = rankToTree(rank);
 
+        if (inputType == "rank") {
+          var rank = document.getElementById("treeRank").value;
+          rank = parseInt(rank);
+          // const data = rankToTree(42);
+          data = rankToTree(rank);
+        } else if (inputType == "combine") {
+          var a = document.getElementById("childA").value;
+          var b = document.getElementById("childB").value;
+          a = parseInt(a);
+          b = parseInt(b);
+          data = rankToTree(combineFromChildren(a, b));
+        }
         // create a network
         const container = document.getElementById("mynetwork");
         const directionInput = document.getElementById("direction").value;
@@ -75,12 +80,23 @@
           physics: enablePhysics,
         };
         network = new vis.Network(container, data, options);
-
       }
+
+      function rankDraw() {
+        inputType = "rank"
+        draw();
+      }
+
+      function combineDraw() {
+        inputType = "combine"
+        draw();
+      }
+
     </script>
   </head>
 
-  <body onload="draw();">
+  <!-- <body onload="rankDraw();"> -->
+  <body>
     <h2>Ranking bifurcating tree shapes</h2>
 
     <div style="width: 700px; font-size: 14px; text-align: justify">
@@ -90,17 +106,17 @@
     </div>
     <br />
 
-    <form onsubmit="draw(); return false;">
+    <form onsubmit="rankDraw(); return false;">
       <label for="treeRank">Rank of root:</label>
       <input id="treeRank" type="text" value="13" style="width: 150px" />
-      <input type="submit" value="Generate" />
+      <input type="button" value="Generate" onclick="rankDraw()" />
     </form>
     <br />
-    <form>
+    <form onsubmit="combineDraw();">
       <label>Ranks of children:</label>
-      <input type="text" value="5" style="width: 50px" />
-      <input type="text" value="2" style="width: 50px" />
-      <input type="submit" value="Combine" />
+      <input id="childA" type="text" value="5" style="width: 50px" />
+      <input id="childB" type="text" value="2" style="width: 50px" />
+      <input type="button" value="Combine" onclick="combineDraw()" />
     </form>
     <br />
 
