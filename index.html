@@ -31,7 +31,7 @@
       var nodes = null;
       var edges = null;
       var network = null;
-      var inputType = null;
+      var inputType = "rank";
 
       function destroy() {
         if (network !== null) {
@@ -95,8 +95,7 @@
     </script>
   </head>
 
-  <!-- <body onload="rankDraw();"> -->
-  <body>
+  <body onload="draw();">
     <h2>Ranking bifurcating tree shapes</h2>
 
     <div style="width: 700px; font-size: 14px; text-align: justify">
